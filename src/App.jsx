@@ -44,6 +44,7 @@ const mockChartData = Array.from({ length: 20 }, (_, i) => ({
   price: Number((Math.random() * 100 + 100).toFixed(2)),
 }));
 
+
 function App() {
   const [selectedStock, setSelectedStock] = useState(null);
 

@@ -47,33 +47,88 @@ const StockDetail = ({ stock, chartData, onClose }) => {
             <p className="text-xl font-bold">${stock.low52W.toFixed(2)}</p>
           </div>
         </div>
-
+        {/* TREND ANALYSER */}
+        <>
+        <h2 className="text-2xl font-bold mb-4">Trend Analyser</h2>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
           <div className="bg-gray-700 p-4 rounded-lg">
-            <p className="text-gray-400">Current Price</p>
-            <p className="text-xl font-bold">${stock.currentPrice.toFixed(2)}</p>
+            <p className="text-gray-400">Trend Type</p>
+            <p className="text-xl font-bold">DEMO</p>
           </div>
           <div className="bg-gray-700 p-4 rounded-lg">
-            <p className="text-gray-400">52W Return</p>
+            <p className="text-gray-400">SMA_50</p>
             <p className="text-xl font-bold text-red-500">
               {stock.dayChange >= 0 ? '+' : ''}
               {stock.dayChange.toFixed(2)}%
             </p>
           </div>
           <div className="bg-gray-700 p-4 rounded-lg">
-            <p className="text-gray-400">52W High</p>
+            <p className="text-gray-400">SMA_200</p>
             <p className="text-xl font-bold">${stock.high52W.toFixed(2)}</p>
           </div>
           <div className="bg-gray-700 p-4 rounded-lg">
-            <p className="text-gray-400">52W Low</p>
+            <p className="text-gray-400">RSI</p>
             <p className="text-xl font-bold">${stock.low52W.toFixed(2)}</p>
           </div>
           <div className="bg-gray-700 p-4 rounded-lg">
-            <p className="text-gray-400">52W Low</p>
+            <p className="text-gray-400">MACD</p>
             <p className="text-xl font-bold">${stock.low52W.toFixed(2)}</p>
           </div>
         </div>
+        </>
 
+        <>
+          <h2 className="text-2xl font-bold mb-4">Risk Agent</h2>
+          <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="bg-gray-700 p-4 rounded-lg">
+              <p className="text-gray-400">Trend Type</p>
+              <p className="text-xl font-bold">DEMO</p>
+            </div>
+            <div className="bg-gray-700 p-4 rounded-lg">
+              <p className="text-gray-400">SMA_50</p>
+              <p className="text-xl font-bold text-red-500">
+                {stock.dayChange >= 0 ? '+' : ''}
+                {stock.dayChange.toFixed(2)}%
+              </p>
+            </div>
+            <div className="bg-gray-700 p-4 rounded-lg">
+              <p className="text-gray-400">SMA_200</p>
+              <p className="text-xl font-bold">${stock.high52W.toFixed(2)}</p>
+            </div>
+            <div className="bg-gray-700 p-4 rounded-lg">
+              <p className="text-gray-400">RSI</p>
+              <p className="text-xl font-bold">${stock.low52W.toFixed(2)}</p>
+            </div>
+            <div className="bg-gray-700 p-4 rounded-lg">
+              <p className="text-gray-400">MACD</p>
+              <p className="text-xl font-bold">${stock.low52W.toFixed(2)}</p>
+            </div>
+            {/* Placeholder item */}
+            <div className="bg-gray-700 p-4 rounded-lg">
+              <p className="text-gray-400">Indicator 6</p>
+              <p className="text-xl font-bold">N/A</p>
+            </div>
+            {/* Placeholder item */}
+            <div className="bg-gray-700 p-4 rounded-lg">
+              <p className="text-gray-400">Indicator 7</p>
+              <p className="text-xl font-bold">N/A</p>
+            </div>
+            {/* Placeholder item */}
+            <div className="bg-gray-700 p-4 rounded-lg">
+              <p className="text-gray-400">Indicator 8</p>
+              <p className="text-xl font-bold">N/A</p>
+            </div>
+            {/* Placeholder item */}
+            <div className="bg-gray-700 p-4 rounded-lg">
+              <p className="text-gray-400">Indicator 9</p>
+              <p className="text-xl font-bold">N/A</p>
+            </div>
+          </div>
+        </>
+
+
+
+        {/* Recent News Analyser */}
         <div className="bg-gray-700 p-4 rounded-lg">
           <h3 className="font-bold mb-2">Recent News</h3>
           <div className="space-y-2">
