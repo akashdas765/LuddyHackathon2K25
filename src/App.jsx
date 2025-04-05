@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import Header from './components/Header';
 import PortfolioSummary from './components/PortfolioSummary';
-import Indices from './components/Indices';
 import Holdings from './components/Holdings';
 import StockDetail from './components/StockDetail';
 
-// Mock stock data
 const mockStockData = {
   stocks: [
     {
@@ -41,37 +39,10 @@ const mockStockData = {
   ],
 };
 
-// Generate chart data: historical data for 15 months and predicted for next 5 months (predicted = 0 for now)
-const generateChartData = () => {
-  const currentDate = new Date();
-  const data = [];
-
-  // Historical data (past 15 months)
-  for (let i = 14; i >= 0; i--) {
-    const date = new Date(currentDate);
-    date.setMonth(date.getMonth() - i);
-    const price = Number((Math.random() * 50 + 100).toFixed(2));
-    data.push({
-      date: date.toISOString().slice(0, 10),
-      price,
-      predictedPrice: null,
-    });
-  }
-
-  // Predicted data (next 5 months; predicted price = 0 for now)
-  for (let i = 1; i <= 5; i++) {
-    const date = new Date(currentDate);
-    date.setMonth(date.getMonth() + i);
-    data.push({
-      date: date.toISOString().slice(0, 10),
-      price: null,
-      predictedPrice: 0,
-    });
-  }
-  return data;
-};
-
-const chartData = generateChartData();
+const mockChartData = Array.from({ length: 20 }, (_, i) => ({
+  date: `2024-${String(i + 1).padStart(2, '0')}-01`,
+  price: Number((Math.random() * 100 + 100).toFixed(2)),
+}));
 
 function App() {
   const [selectedStock, setSelectedStock] = useState(null);
@@ -79,20 +50,20 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <Header />
+
       <main className="container mx-auto p-4 space-y-6">
+        {/* Calculate and display the portfolio summary */}
         <PortfolioSummary stocks={mockStockData.stocks} />
-        <Indices
-          indicesData={[
-            { name: 'Dow Jones', value: '34,000', change: '+200' },
-            { name: 'S&P 500', value: '4,100', change: '+30' },
-          ]}
-        />
+
+        {/* List individual holdings */}
         <Holdings stocks={mockStockData.stocks} onSelectStock={setSelectedStock} />
       </main>
+
+      {/* Stock detail modal */}
       {selectedStock && (
         <StockDetail
           stock={selectedStock}
-          chartData={chartData}
+          chartData={mockChartData}
           onClose={() => setSelectedStock(null)}
         />
       )}
