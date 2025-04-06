@@ -83,4 +83,21 @@ Before installing and running, ensure you have:
    pip install -r requirements.txt
    npm install
 
+2. **Create Environment Variables file
+
+   ```bash
+   DB_NAME=your_database_name
+   DB_USER=your_username
+   DB_PASS=your_password
+   DB_HOST=localhost
+   DB_PORT=5432
+   
+   # Finnhub API Key (for risk analysis headlines)
+   FINNHUB_API_KEY=YOUR_FINNHUB_API_KEY
+   
+   # Mistral or OpenAI credentials
+   MISTAL_API_KEY=YOUR_MISTRAL_KEY
+   MISTRAL_API_BASE=https://api.openai.com/v1
+
+
 
