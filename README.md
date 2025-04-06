@@ -118,7 +118,19 @@ Before installing and running, ensure you have:
 
 3. forecast_agent.py – The ForecastingAgent uses ExponentialSmoothing to project the next 3 months of price changes.
 
-d4. ecision_agent.py – The DecisionAgent takes in trend, risk, and forecast data, and returns a BUY/SELL/HOLD recommendation.
+4. decision_agent.py – The DecisionAgent takes in trend, risk, and forecast data, and returns a BUY/SELL/HOLD recommendation.
+
+## 6. Endpoints and API
+
+| **Endpoint**                | **Method** | **Description**                                                                                          |
+|-----------------------------|:---------:|----------------------------------------------------------------------------------------------------------|
+| `/portfolio`               | **GET**    | Fetches holdings from PostgreSQL (if configured).                                                        |
+| `/trend?ticker=XYZ`        | **GET**    | Runs TrendAnalysisAgent on the specified ticker.                                                         |
+| `/risk?ticker=XYZ`         | **GET**    | Runs RiskAssessmentAgent on the specified ticker.                                                        |
+| `/forecast?ticker=XYZ`     | **GET**    | Runs ForecastingAgent on the specified ticker.                                                           |
+| `/decision?ticker=XYZ`     | **GET**    | Aggregates all agents and returns a BUY/SELL/HOLD decision.                                              |
+| `/data?ticker=XYZ`         | **GET**    | Returns 1 year of historical data (CSV) for the specified ticker.                                        |
+| `/data_forcast?ticker=XYZ` | **GET**    | Returns forecast data (CSV) from the ForecastingAgent for the ticker.                                    |
 
 
 
