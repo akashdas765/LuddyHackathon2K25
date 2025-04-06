@@ -81,4 +81,6 @@ Before installing and running, ensure you have:
    cd LuddyHackathon2K25-main
    pip install --upgrade pip
    pip install -r requirements.txt
+   npm install
+
 
