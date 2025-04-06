@@ -1,36 +1,82 @@
 # LuddyHackathon2K25
 
-**Project Overview:** LuddyHackathon2K25 is a [brief description of project purpose/function] developed during the Luddy School of Informatics Hackathon 2025. It addresses [specific problem] using [core technologies].
+This repository hosts a multi-agent stock analysis application that uses **Flask** (Python) on the backend and **React + Vite** on the frontend to provide end-to-end stock insights. The application integrates four specialized “agents” to help users make informed investment decisions.
 
-**Features:** (1) [Key feature 1], (2) [Key feature 2], (3) [Key feature 3]
+## Table of Contents
 
-**Technologies:** Frontend: [framework], Backend: [framework], Database: [database type], APIs: [any external APIs]
+1. [Overview](#overview)  
+2. [Features](#features)  
+3. [Prerequisites](#prerequisites)  
+4. [Installation](#installation)  
+5. [Database Setup (Optional)](#database-setup-optional)  
+6. [Environment Variables](#environment-variables)  
+7. [Usage](#usage)  
+   - [Running the Flask Backend](#running-the-flask-backend)  
+   - [Running the React Frontend](#running-the-react-frontend)  
+8. [Agents and Scripts](#agents-and-scripts)  
+   - [TrendAnalysisAgent](#trendanalysisagent)  
+   - [RiskAssessmentAgent](#riskassessmentagent)  
+   - [ForecastingAgent](#forecastingagent)  
+   - [DecisionAgent](#decisionagent)  
+9. [Endpoints and API](#endpoints-and-api)  
+10. [Testing the Agents](#testing-the-agents)  
+11. [Cases Folder](#cases-folder)  
+12. [Troubleshooting](#troubleshooting)  
+13. [License](#license)
 
-**Installation:** 
-```
-git clone https://github.com/username/LuddyHackathon2K25.git
-cd LuddyHackathon2K25
-npm install  # or pip install -r requirements.txt
-cp .env.example .env  # Configure environment variables
-npm start  # or python app.py
-```
+---
 
-**Usage Example:**
-```javascript
-import { mainFunction } from 'LuddyHackathon2K25';
-const result = mainFunction(parameters);
-```
+## 1. Overview
 
-**API Endpoints:** 
-- `GET /api/resource` - Retrieve resources
-- `POST /api/resource` - Create resource
-- `PUT /api/resource/:id` - Update resource
-- `DELETE /api/resource/:id` - Delete resource
+**LuddyHackathon2K25** is a comprehensive platform designed for stock portfolio analysis. It leverages multiple Python “agents” to:
 
-**Testing:** Run `npm test` or `pytest`
+- Perform **technical trend analysis** (SMA, RSI, MACD).  
+- Assess **risk** (volatility, max drawdown, VaR) and incorporate **news sentiment**.  
+- **Forecast** prices using time series modeling (Exponential Smoothing).  
+- Combine all results to issue **BUY/SELL/HOLD** **decisions**.
 
-**Contributing:** Fork → Branch (`feature/name`) → Commit → Push → Pull Request
+The frontend (React + Vite) provides a user interface that fetches results from the Flask APIs and displays them in interactive dashboards.
 
-**License:** MIT
+---
 
-**Team:** [Team Member 1](https://github.com/username1), [Team Member 2](https://github.com/username2), [Team Member 3](https://github.com/username3)
+## 2. Features
+
+- **Trend Analysis**  
+  Calculates various technical indicators and synthesizes them into a single trend score. An optional LLM provides short reasoning about the trend.
+
+- **Risk Assessment**  
+  Measures annualized volatility, Value at Risk (VaR), maximum drawdown, and parses recent news headlines via Finnhub API. An LLM can produce a “news-based risk score.”
+
+- **Forecasting**  
+  Predicts the stock’s closing price over the next 3 months using **ExponentialSmoothing**. Summarizes the forecast using an LLM-generated explanation.
+
+- **Decision Making**  
+  Aggregates the above agents’ results to suggest a final trading action: **BUY**, **SELL**, or **HOLD**.
+
+- **Flask RESTful API**  
+  Provides endpoints to query portfolio information, trigger the analysis, and retrieve results or CSV exports of historical/forecast data.
+
+- **React + Vite Frontend**  
+  Presents an interactive dashboard that displays all results, enabling convenient user interaction.
+
+---
+
+## 3. Prerequisites
+
+Before installing and running, ensure you have:
+
+1. **Python 3.9+**  
+2. **Node.js v16+** and **npm**  
+3. **PostgreSQL** (optional if you want to store portfolio holdings in a database)  
+4. **Finnhub API Key** – if you wish to pull relevant news headlines and incorporate them into the risk analysis.  
+5. **Mistral or OpenAI API credentials** – for the LLM functionalities in your agents (optional but recommended).
+
+---
+
+## 4. Installation
+
+1. **Clone this repo**:
+
+   ```bash
+   git clone https://github.com/your-org/LuddyHackathon2K25.git
+   cd LuddyHackathon2K25-main
