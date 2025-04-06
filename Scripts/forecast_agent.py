@@ -43,14 +43,18 @@ class ForecastingAgent:
         elif hasattr(percent_change, 'item'):
             percent_change = percent_change.item()
 
-        trend_direction = "up" if percent_change > 0 else "down"
+        trend_direction = "Upward" if percent_change > 0 else "Downnward" if percent_change < 0 else "No Change"
 
         return {
             "ticker": ticker,
             "initial_price": round(initial_price, 2),
-            "final_forecast_price": round(final_price, 2),
-            "percent_change": round(percent_change, 2),
+            "forecastedPrice": round(final_price, 2),
+            "percentChange": round(percent_change, 2),
             "direction": trend_direction,
-            "forecast": forecast.to_dict()
+            "forecast": {str(k): v for k, v in forecast.items()}
         }
 
+if __name__ == "__main__":
+    agent = ForecastingAgent()
+    result = agent.run("AAPL")
+    print(result)

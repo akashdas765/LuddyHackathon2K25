@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from decision_agent import DecisionAgent
 from trend_agent import TrendAnalysisAgent
 from risk_assesment import RiskAssessmentAgent
@@ -9,6 +10,8 @@ import os
 import yfinance as yf
 from flask import Response
 app = Flask(__name__)
+CORS(app)
+
 
 decision_agent = DecisionAgent()
 trend_agent = TrendAnalysisAgent()
@@ -45,22 +48,24 @@ def get_portfolio():
         portfolio = []
         for row in rows:
             ticker = row[0]
-            quantity = row[2]
-            average_price = float(row[3])
-            name = row[1]
+            quantity = row[1]
+            average_price = float(row[2])
             try:
                 info = yf.Ticker(ticker).info
                 price = float(info.get('currentPrice', info.get('regularMarketPrice')))
+                name = info.get("shortName", ticker)
             except Exception as e:
                 price = None
-            profit_or_loss = round((price - average_price) * quantity, 2) if price and average_price else "N/A"
+                name = ticker
             portfolio.append({
                 "ticker": ticker,
                 "name": name,
-                "current_price": price,
-                "average_price": average_price,
-                "quantity": quantity,
-                "profit_or_loss": profit_or_loss
+                "qty": quantity,
+                "avgPrice": average_price,
+                "currentPrice": price,
+                "dayChange": info.get("regularMarketChangePercent"),
+                "high52W": info.get("fiftyTwoWeekHigh"),
+                "low52W": info.get("fiftyTwoWeekLow")
             })
 
         return jsonify({"portfolio": portfolio})
@@ -135,6 +140,31 @@ def get_historical_data():
             csv_data,
             mimetype="text/csv",
             headers={"Content-disposition": "attachment; filename=data.csv"}
+        )
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/data_forcast', methods=['GET'])
+def get_forecast_data():
+    ticker = request.args.get('ticker')
+    if not ticker:
+        return jsonify({"error": "Missing 'ticker' in query parameters"}), 400
+    try:
+        result = forecast_agent.run(ticker)
+        if not result or "forecast" not in result:
+            return jsonify({"error": "Invalid forecast data returned"}), 500
+
+        forecast = result["forecast"]  # this is a dict with {date_str: price}
+
+        df = pd.DataFrame(list(forecast.items()), columns=["date", "predictedPrice"])
+        df["date"] = pd.to_datetime(df["date"]).dt.strftime("%Y-%m-%d")
+        df["predictedPrice"] = df["predictedPrice"].astype(float).round(2)
+
+        csv_data = df.to_csv(index=False)
+        return Response(
+            csv_data,
+            mimetype="text/csv",
+            headers={"Content-disposition": "attachment; filename=data_forecast.csv"}
         )
     except Exception as e:
         return jsonify({"error": str(e)}), 500

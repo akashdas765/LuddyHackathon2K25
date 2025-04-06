@@ -2,65 +2,61 @@ import React from 'react';
 
 const Holdings = ({ stocks, onSelectStock }) => {
   return (
-    <div className="bg-gray-800 rounded-lg p-6">
-      <h2 className="text-xl font-bold mb-4">Holdings</h2>
-      <div className="space-y-4">
+    <div className="bg-gray-900 rounded-2xl p-6 shadow-2xl border border-gray-700">
+      <h2 className="text-2xl font-bold mb-6 text-white">📈 Your Portfolio Holdings</h2>
+      <div className="space-y-6">
         {stocks.map((stock) => {
-          // Calculate profit/loss in dollars and percentage
           const profitLoss = (stock.currentPrice - stock.avgPrice) * stock.qty;
           const changePercentage = ((stock.currentPrice - stock.avgPrice) / stock.avgPrice) * 100;
-          // Set the text color based on whether the stock is in profit or loss
-          const profitLossColor = stock.currentPrice >= stock.avgPrice ? "text-green-500" : "text-red-500";
-          
+          const profitLossColor = stock.currentPrice >= stock.avgPrice ? "text-green-400" : "text-red-400";
+
           return (
-            <div 
+            <div
               key={stock.ticker}
-              className="bg-gray-700 rounded-lg p-4 hover:bg-gray-600 cursor-pointer"
+              className="bg-gray-800 rounded-xl p-5 shadow-md transform transition duration-300 hover:scale-[1.02] hover:shadow-lg hover:bg-gray-700 cursor-pointer"
               onClick={() => onSelectStock(stock)}
             >
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center mb-4">
                 <div>
-                  <h3 className="font-bold">{stock.ticker}</h3>
+                  <h3 className="text-xl font-semibold text-white">{stock.ticker}</h3>
                   <p className="text-gray-400">{stock.name}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-bold">Last Trade Price: ${stock.currentPrice}</p>
-                  {/* Additional metrics can be added here */}
+                  <p className="text-sm text-gray-400">Last Price</p>
+                  <p className="text-lg font-bold text-white">${stock.currentPrice.toFixed(2)}</p>
                 </div>
               </div>
-              <div className="mt-2 grid grid-cols-3 gap-4">
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm text-white">
                 <div>
                   <p className="text-gray-400">Quantity</p>
                   <p>{stock.qty}</p>
                 </div>
                 <div>
                   <p className="text-gray-400">Avg. Price</p>
-                  <p>${stock.avgPrice.toLocaleString()}</p>
-                </div>
-                <div>
-                  <p className="text-gray-400">Profit/Loss</p>
-                  <p className={profitLossColor}>${stock.currentPrice.toLocaleString()}</p>
+                  <p>${stock.avgPrice.toFixed(2)}</p>
                 </div>
                 <div>
                   <p className="text-gray-400">Investment</p>
-                  <p>${(stock.qty * stock.avgPrice).toLocaleString()}</p>
+                  <p>${(stock.qty * stock.avgPrice).toFixed(2)}</p>
                 </div>
                 <div>
                   <p className="text-gray-400">Current Value</p>
-                  <p>${(stock.qty * stock.currentPrice).toLocaleString()}</p>
+                  <p>${(stock.qty * stock.currentPrice).toFixed(2)}</p>
                 </div>
                 <div>
-                  <p className="text-gray-400">Profit/Loss Percentage</p>
-                  <p className={profitLossColor}>
-                    {changePercentage.toFixed(2)}%
-                  </p>
+                  <p className="text-gray-400">P/L</p>
+                  <p className={`${profitLossColor} font-semibold`}>${profitLoss.toFixed(2)}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400">P/L %</p>
+                  <p className={`${profitLossColor} font-semibold`}>{changePercentage.toFixed(2)}%</p>
                 </div>
               </div>
             </div>
           );
         })}
       </div>
-
     </div>
   );
 };

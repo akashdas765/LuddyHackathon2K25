@@ -68,9 +68,9 @@ class TrendAnalysisAgent:
             return {
                 'Ticker': ticker,
                 'trend_score': trend_score,
-                'trend_type': trend_type,
-                'sma_50': round(sma_50, 2),
-                'sma_200': round(sma_200, 2),
+                'trendtype': trend_type,
+                'sma50': round(sma_50, 2),
+                'sma200': round(sma_200, 2),
                 'rsi': round(rsi_val, 2),
                 'macd': round(macd_val, 2),
                 'macd_signal': round(signal_val, 2),

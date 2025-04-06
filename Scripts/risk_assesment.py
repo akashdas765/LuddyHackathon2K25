@@ -99,8 +99,9 @@ class RiskAssessmentAgent:
                 'Ticker': str(ticker),
                 'risk_score': float(risk_score),
                 'risk_level': str(risk_level),
-                'max_drawdown_%': float(max_drawdown),
-                'VaR_95_%': float(var_95),
+                'volatility': float(volatility * 100),
+                'max_drawdown': float(max_drawdown),
+                'VaR_95': float(var_95),
                 'news_headlines': [str(h) for h in headlines],
                 'llm_analysis': str(llm_analysis),
                 'llm_risk_score': float(llm_risk_score) if llm_risk_score is not None else None

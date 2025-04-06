@@ -15,9 +15,9 @@ class DecisionAgent:
         analysis = risk_result.get('llm_analysis', '')
         
         forecast_trend = forecast_result.get('direction', 'N/A')
-        forecast_change = forecast_result.get('percent_change', 'N/A')
+        forecast_change = forecast_result.get('percentChange', 'N/A')
         forecast_initial = forecast_result.get('initial_price', 'N/A')
-        forecast_final = forecast_result.get('final_forecast_price', 'N/A')
+        forecast_final = forecast_result.get('forecastedPrice', 'N/A')
 
         prompt = (
             f"You are a financial portfolio advisor. Given the following information for stock {ticker},\n"
