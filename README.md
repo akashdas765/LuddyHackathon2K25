@@ -97,15 +97,13 @@ Before installing and running, ensure you have:
    ```bash
    npm run dev
 
-## 5. Agents and Scripts
+| **Script File**       | **Description**                                                                                                   |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------|
+| `trend_agent.py`      | **TrendAnalysisAgent** – Gathers SMA (50 vs. 200), RSI, and MACD signals to produce a final trend score.           |
+| `risk_assessment.py`  | **RiskAssessmentAgent** – Calculates volatility, VaR, max drawdown, and (optionally) analyzes headlines from Finnhub. |
+| `forecast_agent.py`   | **ForecastingAgent** – Uses ExponentialSmoothing to forecast the next 3 months of price changes.                   |
+| `decision_agent.py`   | **DecisionAgent** – Takes in trend, risk, and forecast data, returning a **BUY/SELL/HOLD** recommendation.         |
 
-1. trend_agent.py – The TrendAnalysisAgent gathers SMA (50 vs. 200), RSI, and MACD signals to produce a final trend score.
-
-2. risk_assesment.py – The RiskAssessmentAgent calculates volatility, VaR, max drawdown, and optionally analyzes headlines from Finnhub.
-
-3. forecast_agent.py – The ForecastingAgent uses ExponentialSmoothing to project the next 3 months of price changes.
-
-4. decision_agent.py – The DecisionAgent takes in trend, risk, and forecast data, and returns a BUY/SELL/HOLD recommendation.
 
 ## 6. Endpoints and API
 
