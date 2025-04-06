@@ -97,6 +97,7 @@ Before installing and running, ensure you have:
    ```bash
    npm run dev
 
+## 5. Agents
 | **Script File**       | **Description**                                                                                                   |
 |-----------------------|-------------------------------------------------------------------------------------------------------------------|
 | `trend_agent.py`      | **TrendAnalysisAgent** – Gathers SMA (50 vs. 200), RSI, and MACD signals to produce a final trend score.           |
