@@ -12,7 +12,7 @@ This repository hosts a multi-agent stock analysis application that uses **Flask
 6. [Endpoints & API](#Endpoints)
 
 ---
-
+<a name="overview"></a>
 ## 1. Overview
 
 **LuddyHackathon2K25** is a comprehensive platform designed for stock portfolio analysis. It leverages multiple Python “agents” to:
@@ -25,7 +25,7 @@ This repository hosts a multi-agent stock analysis application that uses **Flask
 The front end (React + Vite) provides a user interface that fetches results from the Flask APIs and displays them in interactive dashboards.
 
 ---
-
+<a name="features"></a>
 ## 2. Features
 
 - **Trend Analysis**  
@@ -48,6 +48,7 @@ The front end (React + Vite) provides a user interface that fetches results from
 
 ---
 
+<a name="prerequisites"></a>
 ## 3. Prerequisites
 
 Before installing and running, ensure you have:
@@ -58,7 +59,7 @@ Before installing and running, ensure you have:
 5. **Mistral or OpenAI API credentials** – for the LLM functionalities in your agents (optional but recommended).
 
 ---
-
+<a name="installation"></a>
 ## 4. Installation
 
 1. **Clone this repo**:
@@ -107,6 +108,7 @@ Before installing and running, ensure you have:
 | `decision_agent.py`   | **DecisionAgent** – Takes in trend, risk, and forecast data, returning a **BUY/SELL/HOLD** recommendation.         |
 
 
+<a name="endpoints"></a>
 ## 6. Endpoints and API
 
 | **Endpoint**                | **Method** | **Description**                                                                                          |
