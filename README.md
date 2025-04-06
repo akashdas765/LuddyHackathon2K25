@@ -1,6 +1,11 @@
 # LuddyHackathon2K25
-## Team name: Dva.exe
-## Member: Aditya Agarkhed, Akash Das, Vinay Shirole.
+
+**Team Name:** Dva.exe  
+**Members:**  
+- Aditya Agarkhed  
+- Akash Das  
+- Vinay Shirole  
+
 
 This repository hosts a multi-agent stock analysis application that uses **Flask** (Python) on the backend and **React + Vite** on the frontend to provide end-to-end stock insights. The application integrates four specialized “agents” to help users make informed investment decisions.
 
