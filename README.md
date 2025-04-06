@@ -35,7 +35,7 @@ This repository hosts a multi-agent stock analysis application that uses **Flask
 - **Forecast** prices using time series modeling (Exponential Smoothing).  
 - Combine all results to issue **BUY/SELL/HOLD** **decisions**.
 
-The frontend (React + Vite) provides a user interface that fetches results from the Flask APIs and displays them in interactive dashboards.
+The front end (React + Vite) provides a user interface that fetches results from the Flask APIs and displays them in interactive dashboards.
 
 ---
 
@@ -45,10 +45,10 @@ The frontend (React + Vite) provides a user interface that fetches results from 
   Calculates various technical indicators and synthesizes them into a single trend score. An optional LLM provides short reasoning about the trend.
 
 - **Risk Assessment**  
-  Measures annualized volatility, Value at Risk (VaR), maximum drawdown, and parses recent news headlines via Finnhub API. An LLM can produce a “news-based risk score.”
+  Measures annualized volatility, Value at Risk (VaR), and maximum drawdown, and parses recent news headlines via Finnhub API. An LLM can produce a “news-based risk score.”
 
 - **Forecasting**  
-  Predicts the stock’s closing price over the next 3 months using **ExponentialSmoothing**. Summarizes the forecast using an LLM-generated explanation.
+  Predicts the stock’s closing price over the next 3 months using **ExponentialSmoothing**. Summarize the forecast using an LLM-generated explanation.
 
 - **Decision Making**  
   Aggregates the above agents’ results to suggest a final trading action: **BUY**, **SELL**, or **HOLD**.
@@ -79,3 +79,6 @@ Before installing and running, ensure you have:
    ```bash
    git clone https://github.com/your-org/LuddyHackathon2K25.git
    cd LuddyHackathon2K25-main
+   pip install --upgrade pip
+   pip install -r requirements.txt
+
