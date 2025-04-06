@@ -66,8 +66,7 @@ The frontend (React + Vite) provides a user interface that fetches results from 
 Before installing and running, ensure you have:
 
 1. **Python 3.9+**  
-2. **Node.js v16+** and **npm**  
-3. **PostgreSQL** (optional if you want to store portfolio holdings in a database)  
+2. **PostgreSQL** (optional if you want to store portfolio holdings in a database)  
 4. **Finnhub API Key** – if you wish to pull relevant news headlines and incorporate them into the risk analysis.  
 5. **Mistral or OpenAI API credentials** – for the LLM functionalities in your agents (optional but recommended).
 
