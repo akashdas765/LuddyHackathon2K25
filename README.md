@@ -64,3 +64,28 @@ The frontend (React + Vite) provides a user interface that fetches results from 
 
 ## 3. Project Structure
 
+
+
+---
+
+## 4. Prerequisites
+
+Before installing and running, ensure you have:
+
+1. **Python 3.9+**  
+2. **Node.js v16+** and **npm**  
+3. **PostgreSQL** (optional if you want to store portfolio holdings in a database)  
+4. **Finnhub API Key** – if you wish to pull relevant news headlines and incorporate them into the risk analysis.  
+5. **Mistral or OpenAI API credentials** – for the LLM functionalities in your agents (optional but recommended).
+
+---
+
+## 5. Installation
+
+1. **Clone this repo**:
+
+   ```bash
+   git clone https://github.com/your-org/LuddyHackathon2K25.git
+   cd LuddyHackathon2K25-main
+
+
