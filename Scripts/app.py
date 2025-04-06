@@ -12,7 +12,6 @@ from flask import Response
 app = Flask(__name__)
 CORS(app)
 
-
 decision_agent = DecisionAgent()
 trend_agent = TrendAnalysisAgent()
 risk_agent = RiskAssessmentAgent()
@@ -130,11 +129,10 @@ def get_historical_data():
     if not ticker:
         return jsonify({"error": "Missing 'ticker' in query parameters"}), 400
     try:
-        data = yf.download(ticker, period="5y")
+        data = yf.download(ticker, period="1y")
         if data.empty:
             return jsonify({"error": "No historical data found"}), 404
         data.reset_index(inplace=True)
-        print(data.to_dict(orient="records"))
         csv_data = data.to_csv(index=False)
         return Response(
             csv_data,

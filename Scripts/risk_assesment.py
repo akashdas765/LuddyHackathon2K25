@@ -50,10 +50,13 @@ class RiskAssessmentAgent:
                 ]
             )
             content = response.choices[0].message["content"].strip()
-            print("LLM response: ", content)
+            parsed_json_str = content.strip('```json').strip('```').strip()
+            parsed = json.loads(parsed_json_str)
+            analysis = parsed.get("analysis", "No analysis available.")
+            score = parsed.get("risk_score", None)
             match = re.search(r'"risk_score"\s*:\s*(\d{1,3})', content)
-            score = int(match.group(1)) if match and 0 <= int(match.group(1)) <= 100 else None
-            return content, score
+            # score = int(match.group(1)) if match and 0 <= int(match.group(1)) <= 100 else None
+            return analysis, score
         except Exception as e:
             print(f"[Error] OpenAI API calling mistral model failed for {ticker}: {e}")
             return "LLM analysis failed.", None
@@ -103,7 +106,7 @@ class RiskAssessmentAgent:
                 'max_drawdown': float(max_drawdown),
                 'VaR_95': float(var_95),
                 'news_headlines': [str(h) for h in headlines],
-                'llm_analysis': str(llm_analysis),
+                'analysis': str(llm_analysis),
                 'llm_risk_score': float(llm_risk_score) if llm_risk_score is not None else None
             }
 

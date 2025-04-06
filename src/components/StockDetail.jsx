@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { TrendingUp, TrendingDown, ArrowRight, Activity } from 'lucide-react';
+import { motion, AnimatePresence } from "framer-motion";
 const StockDetail = ({ stock, chartData, onClose }) => {
   // State to track whether agent data should be shown
   const [showAgentData, setShowAgentData] = useState(false);
@@ -44,6 +45,10 @@ const StockDetail = ({ stock, chartData, onClose }) => {
         ...prev,
         trend: { status: 'completed', data: trendData }
       }));
+      addMessage("Trend Agent", `Trend Score: ${trendData.trend_score}, Type: ${trendData.trendtype}, SMA_50: ${trendData.sma50}, SMA_200: ${trendData.sma200}, RSI: ${trendData.rsi.toFixed(1)}, MACD: ${trendData.macd.toFixed(2)}`);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      addMessage("Trend Agent", `Trend Analysis: ${trendData.analysis}`);
+      await new Promise(resolve => setTimeout(resolve, 1000));
       addMessage("Trend Agent", "Analysis complete, sending data");
       await new Promise(resolve => setTimeout(resolve, 3000));
   
@@ -54,7 +59,11 @@ const StockDetail = ({ stock, chartData, onClose }) => {
         ...prev,
         risk: { status: 'completed', data: riskData }
       }));
-      addMessage("Risk Agent", "Risk assessment complete, data ready");
+      addMessage("Risk Agent", `Risk Level: ${riskData.risk_level}, Volatility: ${riskData.volatility.toFixed(2)}, Max Drawdown: ${riskData.max_drawdown.toFixed(2)}, VaR 95: ${riskData.VaR_95.toFixed(2)}, Model Risk Score: ${riskData.llm_risk_score.toFixed(2)}%`);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      addMessage("Risk Agent", `Risk Assesment Analysis: ${trendData.analysis}`);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      addMessage("Risk Agent", "Risk Assessment complete, data ready");
       await new Promise(resolve => setTimeout(resolve, 3000));
   
       addMessage("Decision Agent", `Requesting price forecast for ${stock.ticker}`);
@@ -64,6 +73,10 @@ const StockDetail = ({ stock, chartData, onClose }) => {
         ...prev,
         forecasting: { status: 'completed', data: forecastData }
       }));
+      addMessage("Forecasting Agent", `Forecasted Price: $${forecastData.forecastedPrice.toFixed(2)}, Direction: ${forecastData.direction}, Change: ${forecastData.percentChange.toFixed(2)}%`);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      addMessage("Forecasting Agent", `Forecasting Analysis: ${forecastData.analysis}`);
+      await new Promise(resolve => setTimeout(resolve, 1000));
       addMessage("Forecasting Agent", "Forecast models completed, sending predictions");
       await new Promise(resolve => setTimeout(resolve, 3000));
   
@@ -98,6 +111,7 @@ const StockDetail = ({ stock, chartData, onClose }) => {
         ...prev,
         decision: { status: 'completed', data: decisionData }
       }));
+      addMessage("Decision Agent", `Final Decision: ${decisionData.decision.decision} — ${decisionData.decision.reasoning}`);
   
       checkAllComplete();
     } catch (error) {
@@ -135,6 +149,14 @@ const StockDetail = ({ stock, chartData, onClose }) => {
     });
   };
   console.log(agentStatus);
+  const logEndRef = useRef(null);
+  
+  useEffect(() => {
+    if (logEndRef.current) {
+      logEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [communicationLog]);
+
   const forecastData = Array.isArray(agentStatus.forecasting.data) ? agentStatus.forecasting.data : [];
   const combinedData = chartData.map(original => {
     const match = forecastData.find(f => f.date === original.date);
@@ -151,8 +173,22 @@ const StockDetail = ({ stock, chartData, onClose }) => {
   );
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-gray-800 rounded-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+    <AnimatePresence>
+      <motion.div
+        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto scrollbar-none"
+        onClick={onClose}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <motion.div
+          className="bg-gray-800 rounded-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto scrollbar-none"
+          onClick={(e) => e.stopPropagation()}
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 50, opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
         <div className="flex justify-between items-center mb-6">
           <div>
             <h2 className="text-2xl font-bold">{stock.name}</h2>
@@ -179,6 +215,14 @@ const StockDetail = ({ stock, chartData, onClose }) => {
              />
              <YAxis stroke="#9CA3AF" tick={{ fill: '#9CA3AF' }} />
              <Tooltip
+               contentStyle={{
+                 backgroundColor: '#1F2937',
+                 border: '1px solid #374151',
+                 borderRadius: '8px',
+                 padding: '10px',
+                 color: '#F9FAFB',
+               }}
+               labelStyle={{ color: '#9CA3AF' }}
                formatter={(value, name, props) => {
                  const date = new Date(props.payload.date);
                  const formattedDate = !isNaN(date.getTime())
@@ -189,14 +233,21 @@ const StockDetail = ({ stock, chartData, onClose }) => {
                        day: 'numeric',
                      })
                    : props.payload.date;
-                 const label = name === 'forecast' ? 'Forecast' : 'Price';
-                 return [`$${Number(value).toFixed(2)}`, `${label} (${formattedDate})`];
+                 const label = name === 'predictedPrice' ? 'Forecast' : 'Price';
+                 return [`$${Number(value).toFixed(2)}`, `${label}`];
                }}
              />
              <Legend />
-             <Line type="monotone" dataKey="price" name="Historical" stroke="#8884d8" dot={false} />
+             <Line type="monotone" dataKey="price" name="Historical" stroke="lightblue" dot={false} />
              {showAgentData && (
-               <Line type="monotone" dataKey="predictedPrice" name="Predicted" stroke="#4ade80" dot={false} strokeDasharray="5 5" />
+               <Line
+                 type="monotone"
+                 dataKey="predictedPrice"
+                 name="Predicted"
+                 stroke={agentStatus.forecasting.data?.percentChange >= 0 ? "green" : "red"}
+                 dot={false}
+                 strokeDasharray="5 5"
+               />
              )}
            </LineChart>
           </ResponsiveContainer>
@@ -233,7 +284,8 @@ const StockDetail = ({ stock, chartData, onClose }) => {
             onClick={handleAskDecisionAgent}
             disabled={isLoading}
           >
-            {isLoading ? 'Processing...' : 'Ask Decision Agent'}
+            <Activity className="mr-2" />
+            {isLoading ? 'Processing...' : 'Ask SIRIUS ... '} 
           </Button>
           <Button
             variant="outlined"
@@ -251,7 +303,7 @@ const StockDetail = ({ stock, chartData, onClose }) => {
           <div className="mt-6 bg-gray-900 p-4 rounded-lg border border-gray-700">
             <div className="flex items-center justify-center mb-4">
               <CircularProgress color="primary" />
-              <span className="ml-3 text-lg">Processing stock analysis...</span>
+              <span className="ml-3 text-lg">Analysing {stock.name} . . . </span>
             </div>
             
             {/* Agent status indicators */}
@@ -290,6 +342,7 @@ const StockDetail = ({ stock, chartData, onClose }) => {
                   <span className="text-gray-300">{log.message}</span>
                 </div>
               ))}
+              <div ref={logEndRef}></div>
             </div>
           </div>
         )}
@@ -303,23 +356,45 @@ const StockDetail = ({ stock, chartData, onClose }) => {
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
                 <div className="bg-gray-700 p-4 rounded-lg">
                   <p className="text-gray-400">Trend Type</p>
-                  <p className="text-xl font-bold">{agentStatus.trend.data.trendtype}</p>
+                  <p className={`text-xl font-bold ${
+                    agentStatus.trend.data.trendtype.includes("Strong Bullish") || agentStatus.trend.data.trendtype === "Very Strong Bullish"
+                      ? 'text-green-400'
+                      : agentStatus.trend.data.trendtype.includes("Strong Bearish") || agentStatus.trend.data.trendtype === "Very Strong Bearish"
+                      ? 'text-red-400'
+                      : agentStatus.trend.data.trendtype.includes("Bullish")
+                      ? 'text-green-300'
+                      : agentStatus.trend.data.trendtype.includes("Bearish")
+                      ? 'text-red-300'
+                      : 'text-yellow-300'
+                  }`}>
+                    {agentStatus.trend.data.trendtype}
+                  </p>
                 </div>
                 <div className="bg-gray-700 p-4 rounded-lg">
                   <p className="text-gray-400">SMA_50</p>
-                  <p className="text-xl font-bold">${agentStatus.trend.data.sma50.toFixed(2)}</p>
+                  <p className={`text-xl font-bold ${agentStatus.trend.data.sma50 < stock.currentPrice ? 'text-green-300' : 'text-red-300'}`}>
+                    ${agentStatus.trend.data.sma50.toFixed(2)}
+                  </p>
                 </div>
                 <div className="bg-gray-700 p-4 rounded-lg">
                   <p className="text-gray-400">SMA_200</p>
-                  <p className="text-xl font-bold">${agentStatus.trend.data.sma200.toFixed(2)}</p>
+                  <p className={`text-xl font-bold ${agentStatus.trend.data.sma200 < stock.currentPrice ? 'text-green-300' : 'text-red-300'}`}>
+                    ${agentStatus.trend.data.sma200.toFixed(2)}
+                  </p>
                 </div>
                 <div className="bg-gray-700 p-4 rounded-lg">
                   <p className="text-gray-400">RSI</p>
-                  <p className="text-xl font-bold">{agentStatus.trend.data.rsi.toFixed(1)}</p>
+                  <p className={`text-xl font-bold ${
+                    agentStatus.trend.data.rsi < 30 ? 'text-green-400' :
+                    agentStatus.trend.data.rsi <= 70 ? 'text-yellow-400' :
+                    'text-red-400'
+                  }`}>
+                    {agentStatus.trend.data.rsi.toFixed(1)}
+                  </p>
                 </div>
                 <div className="bg-gray-700 p-4 rounded-lg">
                   <p className="text-gray-400">MACD</p>
-                  <p className="text-xl font-bold">{agentStatus.trend.data.macd.toFixed(2)}</p>
+                  <p className={`text-xl font-bold ${agentStatus.trend.data.macd > 0 ? 'text-green-300' : 'text-red-300'}`}>{agentStatus.trend.data.macd.toFixed(2)}</p>
                 </div>
               </div>
             </div>
@@ -330,25 +405,53 @@ const StockDetail = ({ stock, chartData, onClose }) => {
               <div className="grid grid-cols-3 gap-4 mb-6">
                 <div className="bg-gray-700 p-4 rounded-lg">
                   <p className="text-gray-400">Risk Level</p>
-                  <p className="text-xl font-bold">{agentStatus.risk.data.risk_level}</p>
+                <p className={`text-xl font-bold ${
+                  agentStatus.risk.data.risk_level === 'Low' ? 'text-green-400' :
+                  agentStatus.risk.data.risk_level === 'Moderate' ? 'text-yellow-400' :
+                  'text-red-400'
+                }`}>
+                  {agentStatus.risk.data.risk_level}
+                </p>
                 </div>
+               <div className="bg-gray-700 p-4 rounded-lg">
+                 <p className="text-gray-400">Volatility</p>
+                 <p className={`text-xl font-bold ${
+                   agentStatus.risk.data.volatility < 20 ? 'text-green-400' :
+                   agentStatus.risk.data.volatility < 40 ? 'text-yellow-400' :
+                   'text-red-400'
+                 }`}>
+                   {agentStatus.risk.data.volatility.toFixed(2)}
+                 </p>
+               </div>
                 <div className="bg-gray-700 p-4 rounded-lg">
-                  <p className="text-gray-400">Volatility</p>
-                  <p className="text-xl font-bold">
-                    {agentStatus.risk.data.volatility.toFixed(2)}
+                  <p className="text-gray-400">Max Drawdown</p>
+                  <p className={`text-xl font-bold ${
+                    agentStatus.risk.data.max_drawdown < 20 ? 'text-green-400' :
+                    agentStatus.risk.data.max_drawdown < 40 ? 'text-yellow-400' :
+                    'text-red-400'
+                  }`}>
+                    {agentStatus.risk.data.max_drawdown.toFixed(2)}
                   </p>
                 </div>
                 <div className="bg-gray-700 p-4 rounded-lg">
-                  <p className="text-gray-400">Max Drawdown</p>
-                  <p className="text-xl font-bold">{agentStatus.risk.data.max_drawdown.toFixed(2)}</p>
-                </div>
-                <div className="bg-gray-700 p-4 rounded-lg">
                   <p className="text-gray-400">VaR 95</p>
-                  <p className="text-xl font-bold">{agentStatus.risk.data.VaR_95.toFixed(2)}</p>
+                  <p className={`text-xl font-bold ${
+                    agentStatus.risk.data.VaR_95 <= 2 ? 'text-green-400' :
+                    agentStatus.risk.data.VaR_95 <= 5 ? 'text-yellow-400' :
+                    'text-red-400'
+                  }`}>
+                    {agentStatus.risk.data.VaR_95.toFixed(2)}
+                  </p>
                 </div>
                 <div className="bg-gray-700 p-4 rounded-lg">
                   <p className="text-gray-400">Model Risk Score</p>
-                  <p className="text-xl font-bold">{agentStatus.risk.data.llm_risk_score.toFixed(2)}%</p>
+                <p className={`text-xl font-bold ${
+                  agentStatus.risk.data.llm_risk_score < 33 ? 'text-green-400' :
+                  agentStatus.risk.data.llm_risk_score < 66 ? 'text-yellow-400' :
+                  'text-red-400'
+                }`}>
+                  {agentStatus.risk.data.llm_risk_score.toFixed(2)}%
+                </p>
                 </div>
                 {/* Placeholder item - now empty to maintain grid balance */}
                 <div className="bg-gray-700 p-4 rounded-lg opacity-0"></div>
@@ -359,7 +462,7 @@ const StockDetail = ({ stock, chartData, onClose }) => {
               <h3 className="font-bold mb-2">Recent News</h3>
               <div className="space-y-2">
                 {agentStatus.risk.data.news_headlines.slice(0, 3).map((headline, index) => (
-                  <p key={index} className="text-gray-400">• {headline}</p>
+                  <p key={index} className="text-gray-300">• {headline}</p>
                 ))}
               </div>
             </div>
@@ -370,7 +473,7 @@ const StockDetail = ({ stock, chartData, onClose }) => {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                 <div className="bg-gray-700 p-4 rounded-lg">
                   <p className="text-gray-400">Final Forecasted Price</p>
-                  <p className="text-xl font-bold">${agentStatus.forecasting.data.forecastedPrice.toFixed(2)}</p>
+                  <p className={ `text-xl font-bold ${agentStatus.forecasting.data.percentChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>${agentStatus.forecasting.data.forecastedPrice.toFixed(2)} </p>
                 </div>
                 <div className="bg-gray-700 p-4 rounded-lg">
                   <p className="text-gray-400">% Change</p>
@@ -381,7 +484,12 @@ const StockDetail = ({ stock, chartData, onClose }) => {
                 </div>
                 <div className="bg-gray-700 p-4 rounded-lg">
                   <p className="text-gray-400">Trend Direction</p>
-                  <p className="text-xl font-bold">{agentStatus.forecasting.data.direction}</p>
+                <div className={`text-xl font-bold flex items-center gap-2 ${agentStatus.forecasting.data.direction == "Upward" ? 'text-green-500' : 'text-red-500'}`}>
+                  <span>{agentStatus.forecasting.data.direction}</span>
+                  {agentStatus.forecasting.data.direction == "Upward"
+                    ? <TrendingUp className="text-green-500" size={20} />
+                    : <TrendingDown className="text-red-500" size={20} />}
+                </div>
                 </div>
               </div>
             </div>
@@ -419,12 +527,15 @@ const StockDetail = ({ stock, chartData, onClose }) => {
                     <span className="text-gray-300">{log.message}</span>
                   </div>
                 ))}
+                <div ref={logEndRef}></div>
               </div>
             </div>
           </>
         )}
-      </div>
-    </div>
+      {/* ... existing modal content remains unchanged ... */}
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 
