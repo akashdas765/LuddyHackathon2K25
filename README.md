@@ -83,7 +83,7 @@ Before installing and running, ensure you have:
    pip install -r requirements.txt
    npm install
 
-2. **Create Environment Variables file
+2. Create Environment Variables file
 
    ```bash
    DB_NAME=your_database_name
