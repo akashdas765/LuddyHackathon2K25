@@ -1,11 +1,66 @@
-## 1. Install Python dependencies
-!pip install -r requirements.txt
+# LuddyHackathon2K25
 
-## 2. Install Node dependencies
-!npm install
+This repository hosts a multi-agent stock analysis application that uses **Flask** (Python) on the backend and **React + Vite** on the frontend to provide end-to-end stock insights. The application integrates four specialized “agents” to help users make informed investment decisions.
 
-## 3. Run the Python backend in the background
-!nohup python Scripts/app.py &
+## Table of Contents
 
-## 4. Run the React frontend (foreground)
-!npm run dev
+1. [Overview](#overview)  
+2. [Features](#features)  
+3. [Project Structure](#project-structure)  
+4. [Prerequisites](#prerequisites)  
+5. [Installation](#installation)  
+6. [Database Setup (Optional)](#database-setup-optional)  
+7. [Environment Variables](#environment-variables)  
+8. [Usage](#usage)  
+   - [Running the Flask Backend](#running-the-flask-backend)  
+   - [Running the React Frontend](#running-the-react-frontend)  
+9. [Agents and Scripts](#agents-and-scripts)  
+   - [TrendAnalysisAgent](#trendanalysisagent)  
+   - [RiskAssessmentAgent](#riskassessmentagent)  
+   - [ForecastingAgent](#forecastingagent)  
+   - [DecisionAgent](#decisionagent)  
+10. [Endpoints and API](#endpoints-and-api)  
+11. [Testing the Agents](#testing-the-agents)  
+12. [Cases Folder](#cases-folder)  
+13. [Troubleshooting](#troubleshooting)  
+14. [License](#license)
+
+---
+
+## 1. Overview
+
+**LuddyHackathon2K25** is a comprehensive platform designed for stock portfolio analysis. It leverages multiple Python “agents” to:
+
+- Perform **technical trend analysis** (SMA, RSI, MACD).  
+- Assess **risk** (volatility, max drawdown, VaR) and incorporate **news sentiment**.  
+- **Forecast** prices using time series modeling (Exponential Smoothing).  
+- Combine all results to issue **BUY/SELL/HOLD** **decisions**.
+
+The frontend (React + Vite) provides a user interface that fetches results from the Flask APIs and displays them in interactive dashboards.
+
+---
+
+## 2. Features
+
+- **Trend Analysis**  
+  Calculates various technical indicators and synthesizes them into a single trend score. An optional LLM provides short reasoning about the trend.
+
+- **Risk Assessment**  
+  Measures annualized volatility, Value at Risk (VaR), maximum drawdown, and parses recent news headlines via Finnhub API. An LLM can produce a “news-based risk score.”
+
+- **Forecasting**  
+  Predicts the stock’s closing price over the next 3 months using **ExponentialSmoothing**. Summarizes the forecast using an LLM-generated explanation.
+
+- **Decision Making**  
+  Aggregates the above agents’ results to suggest a final trading action: **BUY**, **SELL**, or **HOLD**.
+
+- **Flask RESTful API**  
+  Provides endpoints to query portfolio information, trigger the analysis, and retrieve results or CSV exports of historical/forecast data.
+
+- **React + Vite Frontend**  
+  Presents an interactive dashboard that displays all results, enabling convenient user interaction.
+
+---
+
+## 3. Project Structure
+
