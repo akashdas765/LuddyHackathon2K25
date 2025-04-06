@@ -1,6 +1,6 @@
 # LuddyHackathon2K25
 
-**Team Name:** Dva.exe  
+**Team Name:** DVA.exe  
 **Members:**  
 - Aditya Agarkhed  
 - Akash Das  
