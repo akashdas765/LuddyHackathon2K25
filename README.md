@@ -83,7 +83,7 @@ Before installing and running, ensure you have:
    pip install -r requirements.txt
    npm install
 
-2. Create Environment Variables file
+2. Create an Environment Variables file
 
    ```bash
    DB_NAME=your_database_name
@@ -98,6 +98,27 @@ Before installing and running, ensure you have:
    # Mistral or OpenAI credentials
    MISTAL_API_KEY=YOUR_MISTRAL_KEY
    MISTRAL_API_BASE=https://api.openai.com/v1
+
+3. Running Flask backend
+
+   ```bash
+   cd Scripts
+   python app.py
+   
+4. Running the React Frontend
+
+   ```bash
+   npm run dev
+
+## 5. Agents and Scripts
+
+1. trend_agent.py – The TrendAnalysisAgent gathers SMA (50 vs. 200), RSI, and MACD signals to produce a final trend score.
+
+2. risk_assesment.py – The RiskAssessmentAgent calculates volatility, VaR, max drawdown, and optionally analyzes headlines from Finnhub.
+
+3. forecast_agent.py – The ForecastingAgent uses ExponentialSmoothing to project the next 3 months of price changes.
+
+d4. ecision_agent.py – The DecisionAgent takes in trend, risk, and forecast data, and returns a BUY/SELL/HOLD recommendation.
 
 
 
