@@ -69,7 +69,11 @@ export default function HowItWorks() {
       )
     },
     {
+<<<<<<< HEAD
+      title: "Decision Agent",
+=======
       title: "Decision Agent - SIRIUS",
+>>>>>>> 5add5710532197c1d38ebc2f0304eee477bc9532
       description: (
         <div className="space-y-2">
           <p className="text-blue-400 font-semibold">Purpose:</p>
@@ -101,7 +105,11 @@ export default function HowItWorks() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
+<<<<<<< HEAD
+          How FinAgent Empowers You
+=======
           How FinSight.ai Empowers You
+>>>>>>> 5add5710532197c1d38ebc2f0304eee477bc9532
         </motion.h1>
         <motion.p
           className="text-gray-400 text-lg"
@@ -109,7 +117,11 @@ export default function HowItWorks() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 1 }}
         >
+<<<<<<< HEAD
+          From real-time insights to powerful AI predictions, FinAgent is built to ensure every decision you make is smart, safe, and successful.
+=======
           From real-time insights to powerful AI predictions, FinSight.ai is built to ensure every decision you make is smart, safe, and successful.
+>>>>>>> 5add5710532197c1d38ebc2f0304eee477bc9532
         </motion.p>
       </section>
 
@@ -171,7 +183,11 @@ export default function HowItWorks() {
             <img src={Learn} alt="Transparency" className="mx-auto w-25 h-25 mb-4" />
             <h3 className="text-xl font-semibold text-blue-400 mb-2">AI That Learns You</h3>
             <p className="text-gray-400">
+<<<<<<< HEAD
+              FinAgent adapts to your risk appetite and portfolio evolution over time.
+=======
               FinSight.ai adapts to your risk appetite and portfolio evolution over time.
+>>>>>>> 5add5710532197c1d38ebc2f0304eee477bc9532
             </p>
           </motion.div>
           <motion.div whileHover={{ scale: 1.05 }} className="bg-gray-900 p-6 rounded-lg shadow-md border border-gray-700">
@@ -189,7 +205,11 @@ export default function HowItWorks() {
       {/* Call to Action */}
       <section className="bg-blue-600 py-16 text-center text-white">
         <h2 className="text-3xl font-bold mb-4">Ready to Maximize Your Investment?</h2>
+<<<<<<< HEAD
+        <p className="text-lg mb-6">Join thousands of users who made informed decisions with FinAgent.</p>
+=======
         <p className="text-lg mb-6">Join thousands of users who made informed decisions with FinSight.ai.</p>
+>>>>>>> 5add5710532197c1d38ebc2f0304eee477bc9532
         <Link to="/login">
           <button className="bg-black hover:bg-gray-800 text-white font-semibold px-8 py-3 rounded-full text-lg">
             Get Started
@@ -200,7 +220,11 @@ export default function HowItWorks() {
       {/* Footer */}
       <footer className="bg-black border-t border-gray-800 py-6 px-10">
         <div className="flex flex-col md:flex-row justify-between items-center text-gray-500">
+<<<<<<< HEAD
+          <p>© 2025 FinAgent. All rights reserved.</p>
+=======
           <p>© 2025 FinSight.ai. All rights reserved.</p>
+>>>>>>> 5add5710532197c1d38ebc2f0304eee477bc9532
           <p>Smarter decisions. Safer investments. Stronger portfolios.</p>
         </div>
       </footer>
