@@ -18,7 +18,11 @@ export default function Navbar() {
     <nav className="bg-black border-b border-gray-800 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
+<<<<<<< HEAD
           <div className="text-2xl font-bold text-yellow-400">FinAgent</div>
+=======
+          <div className="text-2xl font-bold text-yellow-400">FinSight.ai</div>
+>>>>>>> 5add5710532197c1d38ebc2f0304eee477bc9532
           <div className="hidden md:flex space-x-6 items-center">
             <Link to="/" className="text-yellow-400 font-semibold">Home</Link>
             <Link to="/how-it-works" className="text-gray-400 hover:text-yellow-400">How it Works</Link>

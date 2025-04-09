@@ -8,21 +8,28 @@ const PortfolioSummary = ({ stocks }) => {
   const profitLossPercentage = totalInvestment > 0 ? (totalPnL / totalInvestment) * 100 : 0;
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div>
-          <h2 className="text-gray-400 mb-2">Total Investment</h2>
-          <div className="text-3xl font-bold">${totalInvestment.toLocaleString()}</div>
+    <div className="bg-gray-900 rounded-xl p-6 shadow-lg transition-transform transform hover:scale-[1.01]">
+      <h2 className="text-2xl font-bold text-white mb-6">📊 Portfolio Summary</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-white">
+        <div className="bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out">
+          <p className="text-gray-400 text-sm">Total Investment</p>
+          <p className="text-2xl font-semibold">${totalInvestment.toLocaleString()}</p>
         </div>
-        <div>
-          <h2 className="text-gray-400 mb-2">Current Value</h2>
-          <div className="text-3xl font-bold">${totalCurrent.toLocaleString()}</div>
+        <div className="bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out">
+          <p className="text-gray-400 text-sm">Current Value</p>
+          <p className="text-2xl font-semibold">${totalCurrent.toLocaleString()}</p>
         </div>
-        <div>
-          <h2 className="text-gray-400 mb-2">Profit/Loss</h2>
-          <div className={`text-3xl font-bold ${totalPnL >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-            ${Math.abs(totalPnL).toLocaleString()} ({profitLossPercentage.toFixed(2)}%)
-          </div>
+        <div className="bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out">
+          <p className="text-gray-400 text-sm">Profit / Loss</p>
+          <p className={`text-2xl font-semibold ${totalPnL >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            ${Math.abs(totalPnL).toLocaleString()}
+          </p>
+        </div>
+        <div className="bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out">
+          <p className="text-gray-400 text-sm">Change (%)</p>
+          <p className={`text-2xl font-semibold ${profitLossPercentage >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            {profitLossPercentage.toFixed(2)}%
+          </p>
         </div>
       </div>
     </div>

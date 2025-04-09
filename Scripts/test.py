@@ -7,7 +7,7 @@ from decision_agent import DecisionAgent
 from forecast_agent import ForecastingAgent
 
 def run_trend_analysis_test():
-    tickers = ['AAPL', 'TSLA', 'MSFT', 'NFLX', 'GOOGL']
+    tickers = ['SNDL','AABB']
     agent = TrendAnalysisAgent()
     results = []
 
@@ -19,16 +19,16 @@ def run_trend_analysis_test():
         if result:
             results.append({
                 'Ticker': ticker,
-                'Trend': result['trend_type'],
-                'SMA-50': result['sma_50'],
-                'SMA-200': result['sma_200'],
+                'Trend': result['trendtype'],
+                'SMA-50': result['sma50'],
+                'SMA-200': result['sma200'],
                 'RSI': result['rsi'],
                 'MACD': result['macd'],
                 'MACD Signal': result['macd_signal'],
                 'Score': result['trend_score']
             })
-            print(f"✅ {ticker} → {result['trend_type']}")
-            print(f"    SMA-50: {result['sma_50']}, SMA-200: {result['sma_200']}")
+            print(f"✅ {ticker} → {result['trendtype']}")
+            print(f"    SMA-50: {result['sma50']}, SMA-200: {result['sma200']}")
             print(f"    RSI: {result['rsi']} | MACD: {result['macd']} | MACD Signal: {result['macd_signal']}")
             print(f"    Final Trend Score: {result['trend_score']}\n")
         else:
@@ -42,7 +42,7 @@ def run_trend_analysis_test():
 
 
 def run_risk_assessment_test():
-    tickers = ['AAPL', 'TSLA', 'MSFT', 'NFLX', 'GOOGL']
+    tickers = ['SNDL','AABB']
     agent = RiskAssessmentAgent()
     results = []
 
@@ -54,7 +54,7 @@ def run_risk_assessment_test():
         if result:
             results.append(result)
             print(f"✅ {ticker} → Risk Level: {result['risk_level']}, Risk Score: {result['risk_score']}")
-            print(f"    Max Drawdown: {result['max_drawdown_%']}% | VaR 95%: {result['VaR_95_%']}%")
+            print(f"    Max Drawdown: {result['max_drawdown']}% | VaR 95%: {result['VaR_95']}%")
 
             print("    📰 Headlines:")
             for headline in result.get('news_headlines', []):
@@ -70,10 +70,10 @@ def run_risk_assessment_test():
         import pandas as pd
         df = pd.DataFrame(results)
         print("\n📊 Summary of Risk Assessment:")
-        print(df[['Ticker', 'risk_score', 'risk_level', 'max_drawdown_%', 'VaR_95_%', 'llm_risk_score']].to_string(index=False))
+        print(df[['Ticker', 'risk_score', 'risk_level', 'max_drawdown', 'VaR_95', 'llm_risk_score']].to_string(index=False))
 
 def run_forecasting_agent():
-    tickers = ['AAPL', 'TSLA', 'MSFT', 'NFLX', 'GOOGL']
+    tickers = ['SNDL','AABB']
     agent = ForecastingAgent()
     results = []
 
@@ -86,12 +86,12 @@ def run_forecasting_agent():
             results.append({
                 "Ticker": result['ticker'],
                 "Initial Price": result['initial_price'],
-                "Final Forecast Price": result['final_forecast_price'],
-                "% Change": result['percent_change'],
+                "Final Forecast Price": result['forecastedPrice'],
+                "% Change": result['percentChange'],
                 "Direction": result['direction']
             })
-            print(f"✅ {ticker} → {result['direction'].upper()} {result['percent_change']}% over 3 months")
-            print(f"    Initial: {result['initial_price']}, Forecasted: {result['final_forecast_price']}\n")
+            print(f"✅ {ticker} → {result['direction'].upper()} {result['percentChange']}% over 3 months")
+            print(f"    Initial: {result['initial_price']}, Forecasted: {result['forecastedPrice']}\n")
         else:
             print(f"❌ Failed to forecast {ticker}\n")
 
@@ -102,7 +102,7 @@ def run_forecasting_agent():
         print(df.to_string(index=False))
 
 def run_final_decision_agent():
-    tickers = ['AAPL', 'TSLA', 'MSFT', 'NFLX', 'GOOGL']
+    tickers = ['SNDL','AABB']
     trend_agent = TrendAnalysisAgent()
     risk_agent = RiskAssessmentAgent()
     forecast_agent = ForecastingAgent()

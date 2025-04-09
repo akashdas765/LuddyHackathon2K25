@@ -128,7 +128,11 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="bg-black border-t border-gray-800 py-6 px-10 mt-10">
         <div className="flex flex-col md:flex-row justify-between items-center text-gray-500">
+<<<<<<< HEAD
           <p>© 2025 FinAgent. All rights reserved.</p>
+=======
+          <p>© 2025 FinSight.ai. All rights reserved.</p>
+>>>>>>> 5add5710532197c1d38ebc2f0304eee477bc9532
           <p>Empowering smarter investment decisions through AI agents.</p>
         </div>
       </footer>
